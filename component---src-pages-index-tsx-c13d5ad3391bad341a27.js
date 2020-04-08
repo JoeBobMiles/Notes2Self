@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[3],{QeBL:function(e,t,n){"use strict";n.r(t);var a=n("q1tI"),l=n.n(a);t.default=function(){return l.a.createElement(l.a.Fragment,null,l.a.createElement("h1",null,"Notes2Self"),l.a.createElement("p",null,"No shit notes, how-to's, pointers, tips, and tricks."),l.a.createElement("p",null,"© Joseph R Miles 2020"))}}}]);
-//# sourceMappingURL=component---src-pages-index-tsx-c13d5ad3391bad341a27.js.map

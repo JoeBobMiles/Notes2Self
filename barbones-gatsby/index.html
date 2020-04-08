@@ -1,0 +1,92 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.168ecceb758db5d93112.css">p{margin-top:1em}img{margin:1em}pre{margin:2em 0}pre code{font-family:Consolas,monospace;letter-spacing:0}hr{margin:3em 0}h1{margin-top:1em}*{margin:0;padding:0;box-sizing:border-box;font-family:Helevetica,system-ui,sans-serif;font-size:14pt;letter-spacing:.01ch;line-height:1.5em;color:#1a1a1a}body{margin:auto;width:80ch;padding:2ch}h1{font-size:2em}h1,h2{margin-bottom:1em}h2{font-size:1.6em}h3{font-size:1.4em;margin-bottom:1em}header h1{margin:0}a{color:#000;text-decoration:none}article{margin:2em 0}article h3{margin-bottom:.25em}article h3 span{color:#999}</style><meta name="generator" content="Gatsby 2.19.45"/><script>window.goatcounter={no_onload:true,};</script><script async="" data-goatcounter="https://notes2self.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script><link as="script" rel="preload" href="/styles-eab84454782f60f2b911.js"/><link as="script" rel="preload" href="/component---src-templates-post-tsx-b784daf3df8cc76d5b07.js"/><link as="script" rel="preload" href="/commons-c894aa044b4e2f97ae1e.js"/><link as="script" rel="preload" href="/app-964386651945f2f4d7a9.js"/><link as="script" rel="preload" href="/webpack-runtime-0ffcfb61f1234eb81a13.js"/><link as="fetch" rel="preload" href="/page-data/barbones-gatsby/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body><noscript><img src="https://notes2self.goatcounter.com/count?p=/barbones-gatsby/"/></noscript><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><header><a href="/"><h1>Notes2Self</h1></a></header><main><h1>Barbones Gatsby</h1><h3>21 March, 2020</h3><p>After days of frustrated floundering with starters, plugins, and Gatsby’s
+generally lacking in straight-forward-ness, I’ve decided to start my own
+little bootstrapping guide. The purpose of this guide is to demystify how the
+fuck Gatsby works and to better come to grips with how plugins, transformers,
+and the various other chicanery, work.</p><h1>For Starters</h1><p>We all have to start somewhere, and that’s where Gatsby’s starters come in.
+What’s a starter? Well, in Gatsby, you have two options: build the project
+from scratch using npm and your text editor, or make Gatsby write all the
+boilerplate for you. Starters allow you to specify what kind of boilerplate
+you want to start your site with. Gatsby has a default starter, but as near
+as I can tell, it’s intended to be a quickstart for people who already know
+what they’re doing.</p><p>As you can imagine, that’s a problem for people like us who don’t know what
+they’re doing.</p><p>I tried looking around for a barebones Gatsby starter that literally only had
+Gatsby and React installed, but any variation of “minimal”, “barebones”, and
+“empty” I put into Google just left me with either reskinned versions of the
+blog starter or random articles about Gatsby starters. Bleck.</p><p>That left me with creating my own. The process to get there looked a little
+like this:</p><img title="Oh good, my puppy found the chainsaw" alt="Stitch, a blue alien creature, stands on top of a rusty Volkswagon Beetle, laughing maniacly and brandishing a chainsaw." src="/images/8f9e9ffb6ed10927cd17d12058a7d49d/StitchWithChainsaw.gif"/><p>Yeah… If you don’t want to go crazy and tear up a bunch of code, I turned the
+torn down code into its own Gatsby starter:
+<a href="https://github.com/joebobmiles/gatsby-starter-empty">https://github.com/joebobmiles/gatsby-starter-empty</a>. To use it, we first need
+to install Gatsby (if you haven’t already):</p><pre><code>$ npm install --global gatsby-cli
+</code></pre><p>As you probably notice, Gatsby informs us that it’s configured to report to
+its overlords by default. (I have multiple issues with this, but that’s a
+subject for a different article.)</p><pre><code>&gt; gatsby-cli@2.10.13 postinstall C:\Users\josep\AppData\Roaming\npm\node_modules\gatsby-cli
+&gt; node scripts/postinstall.js
+
+╔════════════════════════════════════════════════════════════════════════╗
+║                                                                    ║
+║ Gatsby collects anonymous usage analytics                          ║
+║ to help improve Gatsby for all users.                              ║
+║                                                                    ║
+║ If you&#x27;d like to opt-out, you can use `gatsby telemetry --disable` ║
+║ To learn more, checkout https://gatsby.dev/telemetry               ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════════╝
+</code></pre><p>I don’t like my apps reporting to their overlords, so I disabled telemetry.</p><p>Now that we have Gatsby installed, we can go about setting up our project. To
+do so, use the following command:</p><pre><code>$ gatsby new PersonalSite https://github.com/joebobmiles/gatsby-starter-empty
+</code></pre><p>This will clone the starter repository and rename the cloned directory to
+PersonalSite. You can name your folder to whatever you want, so feel free to
+change the name given to the Gatsby CLI.</p><p>Congrats, you just created your first Gatsby project! Yay!</p><h1>A Tour of the Carnage</h1><p>Inside the folder you just cloned, you’ll find the following directory
+structure:</p><pre><code>PersonalSite
+|- src/
+|  |- pages/
+|  |  |- 404.js
+|  |  |- index.js
+|- static/
+|  |- favicon.ico
+|  |- robots.txt
+|- .gitignore
+|- gatsby-config.js
+|- package.json
+</code></pre><p>You will notice, aside from the gitignore, favicon, and robots file, we are
+left with four files of interest: package.json, gatsby-config.js,
+src/pages/index.js, and src/pages/404.js. The package.json is pretty standard
+(and bare), so we’ll skip over that.</p><p>The next file, gatsby-config.js, is, you guessed it, the Gatsby config file.
+This is used to control the build configuration that Gatsby uses to turn your
+source code and data into a beautiful static website. There’s a lot that goes
+into here once you get going, but for just starting out, you don’t need much:</p><pre><code>module.exports = {
+  siteMetadata: {
+title: `My Blog`,
+    author: {
+        name: `Full Name`,
+    },
+    siteUrl: `https://example.dev`,
+  },
+  plugins: [],
+}
+</code></pre><p>In theory, this could be completely empty, but to save everybody time writing
+the basics from scratch, I left the siteMetadata and plugins fields. The
+plugins field is empty because, well, we’re not using any to run this basic
+starter. I’ll talk about using plugins at a later time.</p><p>Now to the site itself: index.js and 404.js. Both are required by Gatsby, so
+I had to leave them in there (and inside the pages directory). They’re fairly
+simple:</p><p>index.js</p><pre><code>import React from &quot;react&quot;
+
+const Site = () =&gt; (
+  &lt;h1&gt;Hello World!&lt;/h1&gt;
+)
+
+export default Site
+</code></pre><p>404.js</p><pre><code>import React from &quot;react&quot;
+
+const NotFoundPage = () =&gt; (
+  &lt;h1&gt;404 - That&#x27;s an error!&lt;/h1&gt;
+)
+
+export default NotFoundPage
+</code></pre><p>Both files declare React function components, and set them to be default
+exports. When the Gatsby build runs, it seeks out these files, imports their
+default exports, and uses them to generate an index.html, plus a bundled
+common.js that contains the Site and NotFoundPage components.
+Now, if we startup the Gatsby development server using:</p><pre><code>$ npm run develop # or `gatsby develop`
+</code></pre><p>And visit <code>http://localhost:8000</code> (after waiting for the development server
+to build the site), we should be greeted with a lovely “Hello World!” HTML
+page! Awesome!</p><p>— <!-- -->Joseph Miles</p></main><footer><p>© <!-- -->Joseph Miles<!-- --> <!-- -->2020</p></footer></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/barbones-gatsby/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-964386651945f2f4d7a9.js"],"component---src-templates-post-tsx":["/component---src-templates-post-tsx-b784daf3df8cc76d5b07.js"],"component---src-pages-404-tsx":["/component---src-pages-404-tsx-3a7b9189fc523d6ab11a.js"],"component---src-pages-index-tsx":["/component---src-pages-index-tsx-9d9d7079ddf55a2ea719.js"]};/*]]>*/</script><script src="/webpack-runtime-0ffcfb61f1234eb81a13.js" async=""></script><script src="/app-964386651945f2f4d7a9.js" async=""></script><script src="/commons-c894aa044b4e2f97ae1e.js" async=""></script><script src="/component---src-templates-post-tsx-b784daf3df8cc76d5b07.js" async=""></script><script src="/styles-eab84454782f60f2b911.js" async=""></script></body></html>
